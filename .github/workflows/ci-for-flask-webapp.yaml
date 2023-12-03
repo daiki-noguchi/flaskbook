@@ -1,0 +1,25 @@
+name: CI for flask webapp
+on:
+  pull_request:
+    paths:
+      - 'flask-webapp/**'
+
+jobs:
+  cache_venv_before_run:
+    uses: avilendev/github-actions/.github/workflows/poetry-project-caching.yaml@main
+    with:
+      working-directory: flask-webapp
+      python-version: "3.10"
+      # checkout-submodules: recursive
+      # poetry-install-args: --only lint
+
+  run_pysen:
+    needs: cache_venv_before_run
+
+    uses: avilendev/github-actions/.github/workflows/setup-poetry-project.yaml@main
+    with:
+      working-directory: ${{ needs.cache_venv_before_run.outputs.working-directory }}
+      python-version: ${{ needs.cache_venv_before_run.outputs.python-version }}
+      name: Run pysen
+      run: poetry run pysen run lint
+      force-load: true

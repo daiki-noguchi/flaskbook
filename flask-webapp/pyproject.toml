@@ -1,0 +1,45 @@
+[tool.poetry]
+name = "flask-webapp"
+version = "0.1.0"
+description = ""
+authors = ["daiki-noguchi <bigshiny.0328@gmail.com>"]
+readme = "README.md"
+packages = [{include = "flask_webapp"}]
+
+[tool.poetry.dependencies]
+python = "3.10"
+flask = "^3.0.0"
+email-validator = "^2.1.0.post1"
+flask-mail = "^0.9.1"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.group.lint.dependencies]
+pysen = "^0.10"
+mypy = "^1.0"
+black = "^23.0"
+isort = "^5.0"
+flake8 = "^6.0"
+# wemake-python-styleguide = "^0.17.0"
+
+[tool.pysen]
+version = "0.10"
+builder = ".lint.py"
+
+[tool.pysen.lint]
+enable_black = true
+enable_flake8 = true
+enable_isort = true
+enable_mypy = true
+mypy_preset = "strict"
+line_length = 88
+py_version = "py310"
+[[tool.pysen.lint.mypy_targets]]
+  paths = ["."]
+
+[tool.pysen.lint.source]
+# includes = ["."]
+excludes = [".venv"]
