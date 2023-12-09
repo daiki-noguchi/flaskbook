@@ -1,11 +1,13 @@
+from datetime import datetime
 from flask_webapp.app import db
-
 
 class UserImage(db.Model):
     __tablename__ = 'user_images'
 
     id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
-    image_url = db.Column(db.String(500))
-
-    user = db.relationship('User', backref=db.backref('images', lazy=True))
+    # `user_id`はusersテーブルのidカラムを外部キーとして設定する
+    user_id = db.Column(db.String, db.ForeignKey('users.id'))
+    image_path = db.Column(db.String)
+    is_detected = db.Column(db.Boolean, default=False)
+    created_at = db.Column(db.DateTime, default=datetime.now)
+    updated_at = db.Column(db.DateTime, default=datetime.now, onupdate=datetime.now)
