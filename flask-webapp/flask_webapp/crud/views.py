@@ -1,3 +1,5 @@
+from typing import Union
+
 import werkzeug
 from flask import Blueprint, redirect, render_template, url_for
 from flask_login import login_required
@@ -28,7 +30,7 @@ def sql() -> str:
 
 @crud.route("/users/new", methods=["GET", "POST"])
 @login_required
-def create_user() -> str | "werkzeug.wrappers.response.Response":
+def create_user() -> Union[str, "werkzeug.wrappers.response.Response"]:
     form = UserForm()
     if form.validate_on_submit():
         user = User(
@@ -52,7 +54,7 @@ def users() -> str:
 
 @crud.route("/users/<user_id>", methods=["GET", "POST"])
 @login_required
-def edit_user(user_id: int) -> str | "werkzeug.wrappers.response.Response":
+def edit_user(user_id: int) -> Union[str, "werkzeug.wrappers.response.Response"]:
     user = User.query.get(user_id)
     form = UserForm(obj=user)
     if form.validate_on_submit():

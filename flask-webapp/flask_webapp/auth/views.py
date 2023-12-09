@@ -1,3 +1,5 @@
+from typing import Union
+
 import werkzeug
 from flask import Blueprint, flash, redirect, render_template, request, url_for
 from flask_login import login_user, logout_user
@@ -14,7 +16,7 @@ auth = Blueprint(
 
 
 @auth.route("/signup", methods=["GET", "POST"])
-def signup() -> str | "werkzeug.wrappers.response.Response":
+def signup() -> Union[str, "werkzeug.wrappers.response.Response"]:
     form = SignUpForm()
     if form.validate_on_submit():
         user = User(
@@ -36,7 +38,7 @@ def signup() -> str | "werkzeug.wrappers.response.Response":
 
 
 @auth.route("/login", methods=["GET", "POST"])
-def login() -> str | "werkzeug.wrappers.response.Response":
+def login() -> Union[str, "werkzeug.wrappers.response.Response"]:
     form = LoginForm()
     if form.validate_on_submit():
         user = User.query.filter_by(email=form.email.data).first()

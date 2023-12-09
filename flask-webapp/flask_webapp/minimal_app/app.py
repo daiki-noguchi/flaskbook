@@ -1,5 +1,6 @@
 import logging
 import os
+from typing import Union
 
 import werkzeug
 from email_validator import EmailNotValidError, validate_email
@@ -62,7 +63,7 @@ def contact() -> "werkzeug.wrappers.response.Response":
 
 
 @app.route("/contact/complete", methods=["GET", "POST"])
-def contact_complete() -> str | "werkzeug.wrappers.response.Response":
+def contact_complete() -> Union[str, "werkzeug.wrappers.response.Response"]:
     if request.method == "POST":
         # フォームの値を取得する
         username = request.form["username"]
