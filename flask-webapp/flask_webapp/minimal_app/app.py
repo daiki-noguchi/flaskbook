@@ -1,13 +1,22 @@
-from email_validator import validate_email, EmailNotValidError
-from flask import Flask, render_template, url_for, request, redirect, flash
 import logging
 import os
 
+from email_validator import EmailNotValidError, validate_email
+from flask import (
+    Flask,
+    flash,
+    make_response,
+    redirect,
+    render_template,
+    request,
+    session,
+    url_for,
+)
 from flask_mail import Mail, Message
 
 app = Flask(__name__)
 
-app.config["SECRET_KEY"]="2AZSMss3p5QPbcY2hBsJ"
+app.config["SECRET_KEY"] = "2AZSMss3p5QPbcY2hBsJ"
 app.logger.setLevel(logging.DEBUG)
 # リダイレクトを中断しないようにする
 app.config["DEBUG_TB_INTERCEPT_REDIRECTS"] = False
@@ -27,14 +36,14 @@ def index():
     return "Hello, Flaskbook!"
 
 
-@app.route("/hello/<name>", methods=["GET","POST"], endpoint="hello-endpoint")
+@app.route("/hello/<name>", methods=["GET", "POST"], endpoint="hello-endpoint")
 def hello(name: str) -> str:
     return f"Hello, {name}!"
 
 
-@app.route('/name/<name>')
+@app.route("/name/<name>")
 def show_name(name: str) -> str:
-    return render_template('index.html', name=name)
+    return render_template("index.html", name=name)
 
 
 with app.test_request_context():
@@ -45,7 +54,10 @@ with app.test_request_context():
 
 @app.route("/contact")
 def contact():
-    return render_template("contact.html")
+    response = make_response(render_template("contact.html"))
+    response.set_cookie("flaskbook key", "flaskbook value")
+    session["username"] = "flaskbook"
+    return response
 
 
 @app.route("/contact/complete", methods=["GET", "POST"])
@@ -78,7 +90,7 @@ def contact_complete():
 
         if not is_valid:
             return redirect(url_for("contact"))
-        
+
         # メール送信
         send_email(
             email,
