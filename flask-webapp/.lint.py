@@ -63,7 +63,7 @@ class MypySetting(_MypySetting):
 
 
 MYPY_OVERRIDES: Dict[str, Any] = {
-    # "disallow_untyped_calls": False,  # Allow untyped call for third party library
+    "disallow_untyped_calls": False,  # Allow untyped call for third party library
 }
 
 

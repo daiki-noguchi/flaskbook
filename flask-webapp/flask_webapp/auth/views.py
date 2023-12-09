@@ -1,18 +1,20 @@
-from flask import Blueprint, render_template, flash, url_for, redirect, request
+import werkzeug
+from flask import Blueprint, flash, redirect, render_template, request, url_for
 from flask_login import login_user, logout_user
-from flask_webapp.auth.forms import SignUpForm, LoginForm
-from flask_webapp.crud.models import User
 from flask_webapp.app import db
+from flask_webapp.auth.forms import LoginForm, SignUpForm
+from flask_webapp.crud.models import User
 
 auth = Blueprint(
-    'auth',
+    "auth",
     __name__,
     template_folder="templates",
     static_folder="static",
 )
 
-@auth.route('/signup', methods=["GET", "POST"])
-def signup():
+
+@auth.route("/signup", methods=["GET", "POST"])
+def signup() -> str | "werkzeug.wrappers.response.Response":
     form = SignUpForm()
     if form.validate_on_submit():
         user = User(
@@ -32,8 +34,9 @@ def signup():
         return redirect(next_)
     return render_template("auth/signup.html", form=form)
 
+
 @auth.route("/login", methods=["GET", "POST"])
-def login():
+def login() -> str | "werkzeug.wrappers.response.Response":
     form = LoginForm()
     if form.validate_on_submit():
         user = User.query.filter_by(email=form.email.data).first()
@@ -43,7 +46,8 @@ def login():
         flash("メールアドレスかパスワードか不正です")
     return render_template("auth/login.html", form=form)
 
+
 @auth.route("/logout")
-def logout():
+def logout() -> "werkzeug.wrappers.response.Response":
     logout_user()
     return redirect(url_for("auth.login"))

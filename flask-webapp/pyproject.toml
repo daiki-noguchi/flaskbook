@@ -46,4 +46,4 @@ py_version = "py310"
 
 [tool.pysen.lint.source]
 # includes = ["."]
-excludes = [".venv"]
+excludes = [".venv", "migrations"]

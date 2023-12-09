@@ -8,10 +8,11 @@ from flask_wtf.csrf import CSRFProtect
 db = SQLAlchemy()
 csrf = CSRFProtect()
 login_manager = LoginManager()
-login_manager.login_view = 'auth.signup'
-login_manager.login_message = ''
+login_manager.login_view = "auth.signup"
+login_manager.login_message = ""
 
-def create_app(config_key):
+
+def create_app(config_key: str) -> Flask:
     app = Flask(__name__)
 
     from flask_webapp.crud import views as crud_views
@@ -28,6 +29,7 @@ def create_app(config_key):
     app.register_blueprint(auth_views.auth, url_prefix="/auth")
 
     from flask_webapp.detector import views as dt_views
+
     app.register_blueprint(dt_views.dt)
-    
+
     return app

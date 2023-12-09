@@ -1,6 +1,7 @@
 import logging
 import os
 
+import werkzeug
 from email_validator import EmailNotValidError, validate_email
 from flask import (
     Flask,
@@ -32,7 +33,7 @@ mail = Mail(app)
 
 
 @app.route("/")
-def index():
+def index() -> str:
     return "Hello, Flaskbook!"
 
 
@@ -53,7 +54,7 @@ with app.test_request_context():
 
 
 @app.route("/contact")
-def contact():
+def contact() -> "werkzeug.wrappers.response.Response":
     response = make_response(render_template("contact.html"))
     response.set_cookie("flaskbook key", "flaskbook value")
     session["username"] = "flaskbook"
@@ -61,7 +62,7 @@ def contact():
 
 
 @app.route("/contact/complete", methods=["GET", "POST"])
-def contact_complete():
+def contact_complete() -> str | "werkzeug.wrappers.response.Response":
     if request.method == "POST":
         # フォームの値を取得する
         username = request.form["username"]
@@ -106,7 +107,7 @@ def contact_complete():
     return render_template("contact_complete.html")
 
 
-def send_email(to, subject, template, **kwargs):
+def send_email(to: str, subject: str, template: str, **kwargs: str) -> None:
     """メールを送信する関数"""
     msg = Message(subject, recipients=[to])
     msg.body = render_template(template + ".txt", **kwargs)

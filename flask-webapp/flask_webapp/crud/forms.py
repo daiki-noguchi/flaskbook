@@ -3,7 +3,7 @@ from wtforms import PasswordField, StringField, SubmitField
 from wtforms.validators import DataRequired, Email, length
 
 
-class UserForm(FlaskForm):
+class UserForm(FlaskForm):  # type: ignore[misc]
     username = StringField(
         "Username",
         validators=[
