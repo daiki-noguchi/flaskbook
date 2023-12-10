@@ -177,6 +177,16 @@ def delete_image(image_id: str) -> "werkzeug.wrappers.response.Response":
     return redirect(url_for("detector.index"))
 
 
+@dt.errorhandler(404)
+def page_not_found(e):
+    return render_template("detector/404.html"), 404
+
+
+@dt.errorhandler(500)
+def page_not_found(e):
+    return render_template("detector/500.html"), 500
+
+
 def make_color(labels: list[str]) -> tuple[int, int, int]:
     # 枠線の色をランダムに決定
     colors = [
