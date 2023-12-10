@@ -178,12 +178,12 @@ def delete_image(image_id: str) -> "werkzeug.wrappers.response.Response":
 
 
 @dt.errorhandler(404)
-def page_not_found(e):
+def page_not_found(e: Exception) -> tuple[str, int]:
     return render_template("detector/404.html"), 404
 
 
 @dt.errorhandler(500)
-def page_not_found(e):
+def internal_server_error(e: Exception) -> tuple[str, int]:
     return render_template("detector/500.html"), 500
 
 

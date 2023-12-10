@@ -6,7 +6,8 @@ basedir = Path(__file__).parent.parent
 class BaseConfig:
     SECRET_KEY = "2AZSMss3p5QPbcY2hBsJ"
     WTF_CSRF_SECRET_KEY = "AuwzyszU5sugKN7KZs6f"
-    UPLOAD_FOLDER = str(Path(basedir, "flask_webapp", "images"))
+    # UPLOAD_FOLDER = str(Path(basedir, "flask_webapp", "images"))
+    UPLOAD_FOLDER = str(Path(basedir, "tests", "detector", "images"))
     # 物体検知に利用するラベル
     LABELS = [
         "unlabeled",
